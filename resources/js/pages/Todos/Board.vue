@@ -77,7 +77,7 @@ async function saveTodo() {
             }, {
                 preserveScroll: true,
                 preserveState: true,
-                onSuccess: (page) => {
+                onSuccess: () => {
                     // Update the local list with edited todo
                     for (const status of props.statuses) {
                         const index = lists[status].findIndex(item => item.id === activeTodo.value.id)
@@ -115,7 +115,7 @@ function formatDate(dateString) {
     </div>
 
     <!-- Task board with columns per status -->
-    <div class="d-flex gap-4 p-6 items-start w-100">
+    <div class="d-flex gap-4 p-6 align-items-start w-100 flex-wrap">
         <div
             v-for="status in statuses"
             :key="status"
@@ -136,24 +136,20 @@ function formatDate(dateString) {
             >
                 <template #item="{ element }">
                     <div
-                        class="mb-2 p-3 bg-white rounded shadow cursor-pointer"
+                        class="mb-2 p-3 bg-white rounded shadow c-pointer"
                         @click="openEditModal(element)"
                     >
                         <strong>{{ element.title }}</strong>
-                        <div class="text-sm text-gray-600 truncate">{{ element.description }}</div>
-                        <div class="text-xs text-gray-400 mt-1">
-                            Due: {{ formatDate(element.due_date) }}
+                        <div class="text-sm card-description">{{ element.description }}</div>
+                        <div class="text-xs mt-1">
+                            Due: {{ element.due_date ? formatDate(element.due_date) : 'No due date assigned' }}
                         </div>
+
                     </div>
                 </template>
 
                 <template #footer>
-                    <div
-                        v-if="lists[status].length === 0"
-                        class="p-6 bg-gray-200 text-center text-gray-500 border-2 border-dashed rounded"
-                    >
-                        Drop a task here
-                    </div>
+
                 </template>
             </draggable>
         </div>
@@ -165,7 +161,7 @@ function formatDate(dateString) {
             <div class="modal-content" v-if="activeTodo && modalMode === 'create'">
                 <div class="modal-header">
                     <h5 class="modal-title">Create Task</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
@@ -194,10 +190,10 @@ function formatDate(dateString) {
         <div class="modal-dialog modal-lg">
             <div class="modal-content" v-if="activeTodo && modalMode === 'edit'">
                 <div class="modal-header">
-                    <div>
+                    <div class="px-2">
                         <input type="text" class="form-control" v-model="activeTodo.title" />
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body d-flex justify-content-between">
                     <div class="mb-3 flex-grow-1 px-2">
@@ -217,19 +213,65 @@ function formatDate(dateString) {
 </template>
 
 <style>
-.dragging-ghost {
-    opacity: 0.7;
+
+.modal-header {
+    border-bottom: 1px solid rgba(222, 226, 230, 0.4);
 }
 
-.cursor-pointer {
+.modal-footer {
+    border-top: 1px solid rgba(222, 226, 230, 0.4);
+}
+
+.c-pointer {
     cursor: pointer;
 }
 
 .form-control {
-    border: 1px solid rgba(222, 226, 230, 0.4);
+    background-color: transparent !important;
+    color: #e0e0e0 !important;
 }
 
 .card-container {
     min-width: 20rem;
+    max-width: 20%;
+}
+
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.card-container {
+    background-color: #1e1e1e !important;
+}
+
+.modal-content {
+    background-color: #1f1f1f;
+    color: #e0e0e0;
+}
+
+.bg-white {
+    background-color: #2a2a2a !important;
+}
+
+.form-control {
+    background-color: #2a2a2a;
+    color: #ffffff;
+    border: 1px solid #444;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.card-description {
+    white-space: normal !important;
+    overflow-wrap: break-word;
 }
 </style>

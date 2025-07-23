@@ -9,3 +9,5 @@ use App\Http\Controllers\TodoController;
 Route::get('/', [TodoController::class, 'index'])->name('todos.board');
 Route::post('/todos', [TodoController::class, 'store']);
 Route::put('/todos/reorder', [TodoController::class, 'reorder']);
+Route::put('/todos/{todo}', [TodoController::class, 'update'])->name('todos.update');
+

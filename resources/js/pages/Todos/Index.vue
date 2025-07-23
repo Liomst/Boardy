@@ -51,7 +51,6 @@ function updateOrder() {
 </template>
 
 <style>
-/* Optional: custom horizontal scrollbar styling */
 .flex {
     scrollbar-width: thin;
     scrollbar-color: #a0aec0 transparent;
